@@ -1,0 +1,1121 @@
+/* Relaxation Page 3D Effects */
+
+/* Fix for scrolling and blank space issues */
+html, body {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  min-height: 100%;
+  height: auto;
+}
+
+.content-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+main {
+  flex: 1 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+footer {
+  margin-top: auto;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0;
+}
+
+/* Remove any extra space below the footer */
+footer::after {
+  display: none;
+}
+
+/* Fix for blank space after footer */
+.relaxation-page {
+  min-height: 100vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.relaxation-page footer {
+  margin-top: auto;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Fix for content loading issues during scroll */
+.relaxation-page main {
+  contain: content;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 5000px; /* Estimate content size */
+}
+
+/* Optimize rendering performance */
+.games-grid {
+  will-change: transform;
+  contain: layout style;
+  content-visibility: auto;
+}
+
+.game-card-modern {
+  contain: content;
+  content-visibility: auto;
+}
+
+/* Preload critical content */
+.relaxation-page:before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom right, rgba(238, 242, 255, 0.8), rgba(236, 233, 255, 0.8));
+  z-index: -1;
+}
+
+.dark .relaxation-page:before {
+  background: linear-gradient(to bottom right, rgba(15, 23, 42, 0.8), rgba(30, 25, 44, 0.8));
+}
+
+/* Improve scrolling performance */
+@media (pointer: fine) {
+  .relaxation-page {
+    overflow-y: overlay;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Fix for blank areas during scroll */
+.perspective-1000 {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.transform-3d {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Ensure content is visible during scroll */
+.tabs-container,
+.games-grid,
+.game-card-modern,
+.tabs-content {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Optimize images */
+img, 
+.game-card-modern img {
+  content-visibility: auto;
+  contain: strict;
+}
+
+/* Additional image optimization */
+.game-card-modern img,
+.featured-image img {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.game-card-modern.visible img,
+.featured-image.visible img,
+.image-loaded img {
+  opacity: 1;
+}
+
+/* Ensure footer is always at the bottom with no extra space */
+.relaxation-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.relaxation-page main {
+  flex: 1 0 auto;
+}
+
+.relaxation-page footer {
+  flex-shrink: 0;
+}
+
+/* Prevent layout shifts */
+.game-card-modern {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  contain: layout style paint;
+}
+
+.game-card-modern > div:last-child {
+  flex: 1;
+}
+
+/* Fix for blank space at the bottom */
+.relaxation-page:after {
+  content: '';
+  display: block;
+  height: 0;
+  visibility: hidden;
+  clear: both;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-3d {
+  transform-style: preserve-3d;
+}
+
+.game-card-3d {
+  transition: transform 0.5s ease;
+  box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.5);
+}
+
+.game-card-3d:hover {
+  transform: translateY(-8px) rotateX(5deg) rotateY(5deg);
+  box-shadow: 0 20px 40px -5px rgba(124, 58, 237, 0.6);
+}
+
+.button-3d {
+  transform: translateZ(10px);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.button-3d:hover {
+  transform: translateZ(20px) translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(124, 58, 237, 0.5);
+}
+
+.tab-3d {
+  transition: transform 0.3s;
+}
+
+.tab-3d[data-state="active"] {
+  transform: translateZ(10px) scale(1.05);
+}
+
+.featured-badge {
+  background: linear-gradient(to right, #ec4899, #8b5cf6);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-weight: 500;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.hover-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  transform: skewX(-25deg);
+  transition: all 0.75s;
+}
+
+.hover-shine:hover::after {
+  left: 125%;
+}
+
+/* Fixed Z-index hierarchy for the entire app */
+/* Highest z-index elements */
+.sticky-header,
+.dropdown-fixed,
+[data-radix-popper-content-wrapper] {
+  z-index: 10000 !important; 
+}
+
+.mobile-menu-fixed {
+  z-index: 9998 !important;
+}
+
+/* Header dropdown fix */
+.header-dropdown {
+  z-index: 10000 !important;
+}
+
+/* Tabs and UI elements */
+.tabs-container {
+  position: relative;
+  z-index: 50;
+  overflow: visible !important;
+}
+
+.tabs-section {
+  position: relative;
+  z-index: 40;
+}
+
+.tabs-list {
+  position: relative;
+  z-index: 30;
+}
+
+.tabs-content {
+  position: relative;
+  z-index: 20;
+}
+
+/* Game elements */
+.embedded-game-container {
+  width: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.2);
+  border: 1px solid rgba(124, 58, 237, 0.1);
+  transition: all 0.3s ease;
+  height: auto;
+  position: relative;
+  z-index: 9000;
+}
+
+.dark .embedded-game-container {
+  background: #1f2937;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.embedded-game-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.embedded-game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.dark .embedded-game-header {
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.embedded-game-content {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+}
+
+.embedded-game-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #000;
+}
+
+/* Game card grid responsiveness */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  will-change: transform;
+  contain: content;
+}
+
+/* Modern game card styling with better hover effects */
+.game-card-modern {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.game-card-modern:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 30px 60px -15px rgba(124, 58, 237, 0.3);
+  z-index: 2;
+}
+
+.game-card-modern .card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  background: radial-gradient(circle at center, rgba(124, 58, 237, 0.4) 0%, rgba(124, 58, 237, 0) 70%);
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.game-card-modern:hover .card-glow {
+  opacity: 0.6;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Optimize game display for mobile */
+@media (max-width: 480px) {
+  .game-card-modern {
+    height: auto;
+  }
+
+  .embedded-game-container {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .embedded-game-header h2 {
+    font-size: 1rem;
+  }
+
+  .tabs-list {
+    padding: 0.25rem !important;
+  }
+
+  .modern-tab-trigger {
+    padding: 0.5rem 0.75rem !important;
+  }
+}
+
+/* Fix touch events for mobile */
+@media (hover: none) {
+  .game-card-modern:hover {
+    transform: none !important;
+  }
+
+  .game-card-3d:hover {
+    transform: none !important;
+  }
+
+  .button-3d:hover {
+    transform: none !important;
+  }
+}
+
+/* Prevent iframe content from breaking out */
+.embedded-game-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  border: none;
+  background-color: #000;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Fix z-index for tabs and active states */
+.tabs-content {
+  position: relative;
+  z-index: 20;
+}
+
+.tabs-content.active {
+  z-index: 25;
+}
+
+/* Responsive adjustments for different screen sizes */
+@media (min-width: 1536px) {
+  .embedded-game-content {
+    padding-bottom: 46.25%; /* Slightly shorter for large screens */
+    max-height: 800px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .embedded-game-content {
+    padding-bottom: 56.25%; /* Standard 16:9 */
+  }
+  
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .embedded-game-container {
+    border-radius: 0.75rem;
+  }
+  
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+  
+  .tabs-container {
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+  
+  .lg\:hidden {
+    display: flex !important;
+  }
+  
+  .lg\:flex {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .lg\:hidden {
+    display: none !important;
+  }
+  
+  .lg\:flex {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .embedded-game-container {
+    border-radius: 0.5rem;
+  }
+  
+  .embedded-game-header {
+    padding: 0.75rem;
+  }
+  
+  .embedded-game-content {
+    padding-bottom: 65%; /* Slightly taller for tablets */
+  }
+  
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .embedded-game-header {
+    padding: 0.625rem;
+  }
+  
+  .embedded-game-content {
+    padding-bottom: 75%; /* Even taller for mobile */
+  }
+  
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  
+  .tabs-container {
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .embedded-game-header {
+    padding: 0.5rem;
+  }
+  
+  .embedded-game-content {
+    padding-bottom: 85%; /* Maximum height for small mobile */
+  }
+  
+  .games-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .game-iframe-wrapper {
+    height: 80vh;
+    border-radius: 0.5rem;
+  }
+}
+
+/* Prevent body scroll when games are active */
+body.game-active {
+  overflow: hidden;
+}
+
+/* Hide the tabs when a game is active */
+body.game-active .tabs-section {
+  display: none !important;
+}
+
+/* Enhanced game display */
+.game-fullscreen-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 60px -15px rgba(124, 58, 237, 0.7);
+  margin-bottom: 2rem;
+}
+
+.game-fullscreen-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Adjust game container size for different devices */
+@media (min-width: 1536px) {
+  .game-fullscreen-container {
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 46.25%; /* Slightly shorter for large screens */
+  }
+}
+
+@media (max-width: 1280px) {
+  .game-fullscreen-container {
+    padding-bottom: 56.25%; /* Standard 16:9 */
+  }
+}
+
+@media (max-width: 1024px) {
+  .game-fullscreen-container {
+    padding-bottom: 60%; /* Slightly taller for laptops */
+  }
+}
+
+@media (max-width: 768px) {
+  .game-fullscreen-container {
+    padding-bottom: 65%; /* Taller for tablets */
+    border-radius: 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .game-fullscreen-container {
+    padding-bottom: 75%; /* Even taller for small tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .game-fullscreen-container {
+    padding-bottom: 85%; /* Maximum height for phones */
+    border-radius: 0.25rem;
+  }
+}
+
+/* Fix footer height and spacing */
+footer {
+  margin-top: auto;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+footer > div {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+footer .container {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+footer .border-t {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Fix dropdown z-index issues */
+[data-radix-popper-content-wrapper] {
+  z-index: 9999 !important;
+  position: fixed !important;
+  transform: none !important;
+}
+
+.dropdown-menu {
+  z-index: 9999 !important;
+}
+
+/* Fix header stability during dropdown opening */
+header, nav, .nav-glass {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure dropdowns appear above other content */
+.user-dropdown-container [data-radix-popper-content-wrapper],
+.google-translate-selector [data-radix-popper-content-wrapper],
+.mode-toggle [data-radix-popper-content-wrapper] {
+  z-index: 10000 !important;
+  position: fixed !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+/* Fix footer spacing to match other pages */
+footer {
+  margin-top: auto;
+  margin-bottom: 0 !important;
+  padding-bottom: 1.5rem !important; /* Add padding to match other pages */
+}
+
+footer .container {
+  padding-bottom: 1rem !important;
+}
+
+footer .border-t {
+  padding-bottom: 1.5rem !important;
+  margin-bottom: 0 !important;
+}
+
+/* Fix copyright text spacing */
+footer .text-sm {
+  margin-bottom: 1rem !important;
+}
+
+/* Fix game background loading */
+.game-card-modern .relative {
+  background-color: #111827; /* Dark background while image loads */
+  transition: background-color 0.3s ease;
+}
+
+.game-card-modern .relative.image-loaded {
+  background-color: transparent;
+}
+
+/* Add transition for image loading */
+.game-card-modern img {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.game-card-modern .image-loaded img {
+  opacity: 1;
+}
+
+/* Prevent tabs from overlapping with active game */
+body.game-active .tabs-section,
+body.game-active .tabs-container {
+  display: none !important;
+}
+
+/* Fix game container to ensure proper display */
+.game-fullscreen-container {
+  background-color: #000;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.game-fullscreen-container iframe {
+  background-color: #000;
+}
+
+/* Hide other elements when game is active for better focus */
+body.game-active .tabs-section:not(.active-game) {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+/* Game card glow effect */
+.game-card-shadow {
+  transition: box-shadow 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.game-card-shadow:hover {
+  box-shadow: 0 25px 80px -20px rgba(124, 58, 237, 0.8);
+  transform: translateY(-5px);
+}
+
+/* Neon glow pulse animation */
+.neon-glow {
+  position: relative;
+}
+
+.neon-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: 0 0 30px 5px rgba(124, 58, 237, 0.5);
+  opacity: 0;
+  border-radius: inherit;
+  animation: neonPulse 3s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Optimize performance */
+.fixed-game-section,
+.game-fullscreen-container,
+.game-close-button {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Smooth page transitions */
+.content-container {
+  transition: opacity 0.3s ease-in-out;
+}
+
+body.game-active .content-container {
+  overflow: hidden;
+}
+
+/* Prismatic edge animation */
+.prismatic-edge {
+  position: relative;
+  overflow: hidden;
+}
+
+.prismatic-edge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0), rgba(124, 58, 237, 1), rgba(124, 58, 237, 0));
+  animation: prismaticFlow 2s infinite ease-in-out;
+}
+
+@keyframes prismaticFlow {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 300% 0;
+  }
+}
+
+/* Button 3D effect */
+.button-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button-3d:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  border-radius: inherit;
+  transform: translateZ(-6px);
+  filter: brightness(0.8);
+  z-index: -1;
+}
+
+.button-3d:active {
+  transform: translateY(3px) scale(0.98);
+  box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Gradient text styles */
+.gradient-text-purple {
+  background: linear-gradient(to right, #9333ea, #6366f1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(to right, #2563eb, #6366f1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Glossy card effect */
+.glossy-card {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.glossy-card:after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.05) 40%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  transform: rotate(-45deg);
+  pointer-events: none;
+}
+
+/* Fix for Loom companion element */
+#loom-companion-mv3,
+#shadow-host-companion,
+[ext-id="liecbddmkiiihnedobmlmillhodjkdmb"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  position: absolute !important;
+  pointer-events: none !important;
+  z-index: -9999 !important;
+}
+
+/* Add styles for the special relaxation page header */
+.relaxation-header {
+  z-index: 10001 !important; /* Highest z-index */
+  position: sticky !important;
+  top: 0 !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Special body class for relaxation page */
+body.relaxation-page-active header,
+body.relaxation-page-active nav,
+body.relaxation-page-active .nav-glass {
+  z-index: 10001 !important;
+}
+
+/* Fix dropdown positioning on relaxation page */
+body.relaxation-page-active [data-radix-popper-content-wrapper] {
+  z-index: 10002 !important;
+  position: fixed !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+/* Improve SEO by ensuring images are properly displayed */
+.game-card-modern img {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Optimize performance by reducing animations */
+@media (prefers-reduced-motion: reduce) {
+  .game-card-modern,
+  .game-card-3d,
+  .button-3d,
+  .tab-3d,
+  .game-card-modern img,
+  .hover-shine::after,
+  .card-glow {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Fix hero section to prevent interference with header dropdowns */
+.relaxation-page .text-center.mb-10 {
+  z-index: 10;
+  position: relative;
+}
+
+/* Ensure the featured game section doesn't interfere with dropdowns */
+.mb-16.overflow-hidden.rounded-3xl.shadow-2xl {
+  z-index: 5;
+  position: relative;
+  transform: translateZ(0);
+}
+
+/* Fix header dropdown issues */
+.relaxation-page-active header,
+.relaxation-page-active nav,
+.relaxation-page-active .nav-glass {
+  z-index: 10001 !important;
+  position: sticky !important;
+  top: 0 !important;
+}
+
+/* Ensure dropdowns appear on top of everything */
+.relaxation-page-active [data-radix-popper-content-wrapper],
+.relaxation-page-active .dropdown-menu,
+.relaxation-page-active .dropdown-content {
+  z-index: 10002 !important;
+  position: fixed !important;
+}
+
+/* Fix for performance - reduce animations on slow devices */
+@media (prefers-reduced-motion), (max-width: 768px) {
+  .game-card-modern,
+  .game-card-3d,
+  .button-3d,
+  .tab-3d,
+  .card-glow,
+  .hover-shine::after {
+    transition: opacity 0.3s ease-in-out !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  
+  .game-card-modern:hover,
+  .game-card-3d:hover,
+  .button-3d:hover,
+  .tab-3d:hover {
+    transform: none !important;
+    box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.3) !important;
+  }
+}
+
+/* Prevent layout shifts */
+.game-card-modern {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  contain: layout style paint;
+}
+
+.game-card-modern > div:last-child {
+  flex: 1;
+}
+
+/* Fix for image loading performance */
+.game-card-modern .relative {
+  background-color: #111827; /* Dark background while image loads */
+  transition: background-color 0.3s ease;
+}
+
+.game-card-modern .relative.image-loaded {
+  background-color: transparent;
+}
+
+/* Additional SEO improvements */
+.relaxation-page main {
+  contain: content;
+}
+
+/* Ensure the navbar stays on top */
+.relaxation-header {
+  z-index: 10001 !important;
+  position: sticky !important;
+  top: 0 !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Ensure the hero section doesn't interfere with the header */
+.relaxation-page .text-center.mb-10 {
+  z-index: 10;
+  position: relative;
+}
+
+/* Ensure the featured game section doesn't interfere with dropdowns */
+.mb-16.overflow-hidden.rounded-3xl.shadow-2xl {
+  z-index: 5;
+  position: relative;
+  transform: translateZ(0);
+}
+
+/* New hero container styles */
+.hero-container {
+  position: relative;
+  z-index: 5;
+  background-color: rgba(30, 27, 75, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transform: translateZ(0);
+  overflow: hidden;
+}
+
+/* Ensure the hero content doesn't interfere with dropdowns */
+.hero-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to bottom, rgba(30, 27, 75, 0.5), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Optimize SVG animations for performance */
+.hero-container svg {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Reduce motion for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-container svg motion.path,
+  .hero-container motion.div {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Ensure proper stacking context for all elements */
+.relaxation-header {
+  z-index: 10001 !important;
+  position: sticky !important;
+  top: 0 !important;
+  transform: none !important;
+  will-change: auto !important;
+} 

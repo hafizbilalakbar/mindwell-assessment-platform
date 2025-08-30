@@ -1,0 +1,2 @@
+/* Partytown 0.8.1 - MIT builder.io */
+self.importScripts("./partytown-atomics.js"),self.importScripts("./partytown-media.js"),self.addEventListener("install",(function(){return self.skipWaiting()})),self.addEventListener("activate",(function(e){return e.waitUntil(self.clients.claim())})),self.addEventListener("message",(function(e){return receiveMessageFromSandboxToServiceWorker(e.data,e.ports[0])})),self.addEventListener("fetch",(function(e){"only-if-cached"===e.request.cache&&"same-origin"!==e.request.mode||e.respondWith(fetch(e.request))})); 

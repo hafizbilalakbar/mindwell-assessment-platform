@@ -1,0 +1,35 @@
+/* Google Translate fixes */
+.goog-te-banner-frame, 
+.skiptranslate, 
+.goog-te-gadget { 
+  display: none !important; 
+}
+
+body { 
+  top: 0 !important; 
+}
+
+/* RTL language fixes */
+.translated-rtl {
+  direction: rtl !important;
+}
+
+.translated-rtl .nav-glass *,
+.translated-rtl .footer *,
+.translated-rtl h1, 
+.translated-rtl h2, 
+.translated-rtl h3, 
+.translated-rtl h4, 
+.translated-rtl h5, 
+.translated-rtl h6,
+.translated-rtl p {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* Performance optimizations */
+.translate-acceleration {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+} 

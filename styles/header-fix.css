@@ -1,0 +1,145 @@
+/* Header and Dropdown Fixes */
+
+/* Prevent page jitter/shifting when dropdown is opened */
+html {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin-right: 0 !important;
+  width: 100% !important;
+  overflow-x: hidden;
+}
+
+/* Set proper z-index layers */
+.nav-glass {
+  z-index: 1000 !important;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Proper dropdown positioning */
+.dropdown-fixed {
+  position: absolute !important;
+  transform: none !important;
+  top: calc(100% + 5px) !important;
+  right: 0 !important;
+  margin-top: 0 !important;
+  z-index: 1050 !important;
+}
+
+.dropdown-end {
+  right: 0 !important;
+  left: auto !important;
+}
+
+.dropdown-start {
+  left: 0 !important;
+  right: auto !important;
+}
+
+/* Fix theme toggle button display */
+.theme-toggle-button {
+  position: relative;
+  z-index: 10;
+  transition: none !important;
+}
+
+/* Google Translate dropdown fix */
+.goog-te-combo {
+  position: relative;
+  z-index: 10;
+}
+
+/* Prevent jittering when theme is toggled */
+.prevent-transition,
+.prevent-transition *,
+.prevent-transition *::before,
+.prevent-transition *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Fix for RTL language dropdown positioning */
+.translated-rtl .dropdown-fixed {
+  left: 0 !important;
+  right: auto !important;
+}
+
+/* Fix for responsive layout issues */
+@media (max-width: 768px) {
+  .nav-glass {
+    height: auto !important;
+  }
+  
+  .dropdown-fixed {
+    width: auto !important;
+    min-width: 200px;
+  }
+}
+
+/* Fix for nested dropdowns */
+.dropdown-nested {
+  z-index: 1060 !important;
+}
+
+/* Fix for Google Translate dropdown */
+.google-translate-dropdown {
+  width: 200px !important;
+  max-height: 350px !important;
+  overflow-y: auto !important;
+  z-index: 1050 !important;
+}
+
+/* Ensure proper stacking for overlapping UI components */
+.mode-toggle-container,
+.language-selector-container,
+.user-dropdown-container {
+  position: relative;
+  z-index: 10;
+}
+
+/* Animation performance optimization */
+.header-dropdown * {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Fix for clicks being blocked by hidden elements */
+.dropdown-backdrop {
+  z-index: 990 !important;
+}
+
+/* Fix for About page hero image hover effects */
+.about-hero-image-container,
+.about-hero-image-container:hover {
+  transform: none !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+  transition: none !important;
+}
+
+.about-hero-image,
+.about-hero-image:hover,
+.about-hero-image-container:hover .about-hero-image {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Fix for responsive issues with About page */
+@media (max-width: 768px) {
+  .about-hero-image-container,
+  .about-hero-image-container:hover,
+  .about-hero-image,
+  .about-hero-image:hover {
+    transform: none !important;
+    transition: none !important;
+  }
+} 
