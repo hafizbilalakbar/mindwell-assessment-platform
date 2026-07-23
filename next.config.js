@@ -17,7 +17,6 @@ const nextConfig = {
   reactStrictMode: true,
   compress: true,
   poweredByHeader: false,
-  swcMinify: true,
   // Add security headers
   async headers() {
     return [
@@ -81,7 +80,9 @@ const nextConfig = {
           lib: {
             test: /[\\/]node_modules[\\/]/,
             name(module) {
-              const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+              if (!module.context) return 'lib.unknown';
+              const match = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/);
+              const packageName = match ? match[1] : 'unknown';
               return `lib.${packageName.replace('@', '')}`;
             },
             priority: 30,
@@ -120,36 +121,12 @@ const nextConfig = {
       config.optimization.concatenateModules = true;
     }
 
-    // Add image optimization even in development
-    if (!isServer) {
-      config.module.rules.push({
-        test: /\.(jpe?g|png|webp|avif)$/i,
-        use: [
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              mozjpeg: { quality: 80 },
-              optipng: { enabled: true },
-              pngquant: { quality: [0.65, 0.90], speed: 4 },
-              webp: { quality: 80 }
-            }
-          }
-        ]
-      });
-    }
-
-    return config;
+      return config;
   },
-  // Enable compression
-  compress: true,
   // Increase build output trace
+  outputFileTracingRoot: process.cwd(),
   experimental: {
-    outputFileTracingRoot: process.cwd(),
-    optimizeCss: true,
     scrollRestoration: true,
-    legacyBrowsers: false,
-    browsersListForSwc: true,
-    gzipSize: true,
   },
   // Add retry script to document
   async rewrites() {
