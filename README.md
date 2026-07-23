@@ -4,6 +4,8 @@
 
 MindWell is a comprehensive mental health assessment and wellness platform designed to help individuals understand and improve their mental wellbeing. This platform provides professional mental health assessments, personalized insights, and relaxation tools to support users on their mental wellness journey.
 
+🌐 **Live Website:** https://mindwell-assessment-platform.vercel.app/
+
 ### 🎯 Purpose
 
 This platform was specifically created for individuals experiencing mental health challenges. MindWell helps users:
